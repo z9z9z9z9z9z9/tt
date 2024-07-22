@@ -10,7 +10,7 @@ def clear_screen():
     sys.stdout.write("\033[2J\033[H")
     sys.stdout.flush()
 
-async def animate_text(text, delay=0.1):
+async def animate_text(text, delay=0.05):
     """ Animate text output. """
     for char in text:
         sys.stdout.write(char)
@@ -18,16 +18,32 @@ async def animate_text(text, delay=0.1):
         await asyncio.sleep(delay)
     print()
 
-async def main():
+async def display_header():
     clear_screen()
-    print(Fore.GREEN + Style.BRIGHT + "Welcome to Command Central")
-    print(Fore.GREEN + Style.BRIGHT + "=========================")
-    
-    # Async text animation
-    await animate_text(Fore.GREEN + Style.BRIGHT + "TikTok Panel v2", 0.05)
-    
-    await asyncio.sleep(1)  # Brief pause after animation
+    header = (
+        Fore.GREEN + Style.BRIGHT +
+        "==============================\n" +
+        "  _______ _   _ _____ _  \n" +
+        " |__   __| \\ | |_   _| | \n" +
+        "    | |  |  \\| | | | | | \n" +
+        "    | |  | . ` | | | | | \n" +
+        "    | |  | |\\  |_| |_|_| \n" +
+        "    |_|  |_| \\_|_____|(_)\n" +
+        "                           \n" +
+        "  _______ _  __  _______  \n" +
+        " |__   __| |/ / |__   __| \n" +
+        "    | |  | ' /     | |    \n" +
+        "    | |  |  <      | |    \n" +
+        "    | |  | . \\     | |    \n" +
+        "    |_|  |_|\\_\\    |_|    \n" +
+        "                           \n" +
+        "==============================\n"
+    )
+    await animate_text(header, 0.03)
 
+async def main():
+    await display_header()
+    
     # Display available services
     services = [
         "1. Engagement Boost",
@@ -37,21 +53,21 @@ async def main():
         "5. Views Augmentation"
     ]
 
-    print("\nAvailable Services:")
+    print(Fore.GREEN + "Available Services:")
     for service in services:
         print(Fore.GREEN + service)
     
-    url = input("\nEnter the source URL: ")
+    url = input(Fore.GREEN + "\nEnter the source URL: ")
     
     try:
-        service_choice = int(input("Choose a service by number: "))
+        service_choice = int(input(Fore.GREEN + "Choose a service by number: "))
         if service_choice < 1 or service_choice > 5:
             raise ValueError("Invalid choice.")
     except ValueError as e:
         print(Fore.RED + f"Error: {e}")
         return
 
-    amount = input("Enter the amount (e.g., number of followers, likes, etc.): ")
+    amount = input(Fore.GREEN + "Enter the amount (e.g., number of followers, likes, etc.): ")
 
     # Process request
     services_dict = {
@@ -68,7 +84,7 @@ async def main():
 
     print(Fore.GREEN + f"Successfully sent request to '{service_name}' for URL '{url}' with amount '{amount}'.")
 
-    print(Fore.GREEN + "\nThank you for using Command Central. Goodbye!")
+    print(Fore.GREEN + "\nThank you for using TikTok Panel v20. Goodbye!")
 
 if __name__ == "__main__":
     asyncio.run(main())
